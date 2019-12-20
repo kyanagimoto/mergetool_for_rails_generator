@@ -1,0 +1,18 @@
+#!/bin/bash
+
+tmp_path=$1
+destination_path=$2
+orig_path=${destination_path}.orig
+
+mv ${destination_path} ${orig_path}
+touch ${destination_path}
+git merge-file\
+  --stdout\
+  -L ORIG\
+  -L BASE\
+  -L GENERATED\
+  ${orig_path} \
+  ${destination_path} \
+  ${tmp_path} > ${destination_path}
+
+vim ${destination_path} && rm -f ${orig_path}
